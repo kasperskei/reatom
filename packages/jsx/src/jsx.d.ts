@@ -670,10 +670,12 @@ export namespace JSX {
     // [key: ClassKeys]: boolean;
     accessKey?: string
     class?: string | undefined
+    /** Alias for `class`. */
+    className?: string | undefined
     contenteditable?: boolean | 'plaintext-only' | 'inherit'
     contextmenu?: string
     dir?: HTMLDir
-    draggable?: boolean | 'false' | 'true'
+    draggable?: 'false' | 'true'
     hidden?: boolean | 'hidden' | 'until-found'
     id?: string
     inert?: boolean
@@ -1179,6 +1181,8 @@ export namespace JSX {
   }
   interface StylableSVGAttributes extends CssAttributes {
     class?: string | undefined
+    /** Alias for `class`. */
+    className?: string | undefined
     style?: CSSProperties | string
   }
   interface TransformableSVGAttributes {

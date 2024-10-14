@@ -303,7 +303,7 @@ it('custom component', setup((ctx, h, hf, mount, parent) => {
   const Component = (props: JSX.HTMLAttributes) => <div {...props} />
 
   assert.instance(<Component />, window.HTMLElement)
-  assert.is(((<Component draggable />) as HTMLElement).draggable, true)
+  assert.is(((<Component draggable="true" />) as HTMLElement).draggable, true)
   assert.equal(((<Component>123</Component>) as HTMLElement).innerText, '123')
 }))
 
@@ -416,6 +416,65 @@ it('css property and class attribute', setup(async (ctx, h, hf, mount, parent) =
   assert.ok(ref2.dataset.reatom)
 
   assert.is(ref1.dataset.reatom, ref2.dataset.reatom)
+}))
+
+it('css custom property', setup(async (ctx, h, hf, mount, parent) => {
+  const colorAtom = atom('red' as string | undefined)
+
+  const component = (
+    <div
+      css:first-property={colorAtom}
+      css:secondProperty={colorAtom}
+    ></div>
+  )
+
+  mount(parent, component)
+  await sleep()
+
+  assert.is(component.style.getPropertyValue('--first-property'), 'red')
+  assert.is(component.style.getPropertyValue('--secondProperty'), 'red')
+
+  colorAtom(ctx, 'green')
+
+  assert.is(component.style.getPropertyValue('--first-property'), 'green')
+  assert.is(component.style.getPropertyValue('--secondProperty'), 'green')
+
+  colorAtom(ctx, undefined)
+
+  assert.is(component.style.getPropertyValue('--first-property'), '')
+  assert.is(component.style.getPropertyValue('--secondProperty'), '')
+}))
+
+it('class and className attribute', setup(async (ctx, h, hf, mount, parent) => {
+  const classAtom = atom('' as string | undefined)
+
+  const ref1 = (<div class={classAtom}></div>)
+  const ref2 = (<div className={classAtom}></div>)
+
+  const component = (
+    <div>
+      {ref1}
+      {ref2}
+    </div>
+  )
+
+  mount(parent, component)
+  await sleep()
+
+  assert.ok(ref1.hasAttribute('class'))
+  assert.ok(ref2.hasAttribute('class'))
+
+  classAtom(ctx, 'cls')
+  assert.is(ref1.className, 'cls')
+  assert.is(ref2.className, 'cls')
+  assert.ok(ref1.hasAttribute('class'))
+  assert.ok(ref2.hasAttribute('class'))
+
+  classAtom(ctx, undefined)
+  assert.is(ref1.className, '')
+  assert.is(ref2.className, '')
+  assert.ok(!ref1.hasAttribute('class'))
+  assert.ok(!ref2.hasAttribute('class'))
 }))
 
 it('ref mount and unmount callbacks order', setup(async (ctx, h, hf, mount, parent) => {

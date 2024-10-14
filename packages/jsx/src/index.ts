@@ -9,6 +9,8 @@ export type FC<Props = {}> = (props: Props & { children?: JSXElement }) => JSXEl
 
 export type { JSXElement, JSX }
 
+export { type ClassNameValue, cn } from './utils'
+
 type DomApis = Pick<
   typeof window,
   'document' | 'Node' | 'Text' | 'Element' | 'MutationObserver' | 'HTMLElement' | 'DocumentFragment'
@@ -110,7 +112,7 @@ export const reatomJsx = (ctx: Ctx, DOM: DomApis = globalThis.window) => {
         styleId = styles[val] = random().toString()
         stylesheet.innerText += '[data-reatom="' + styleId + '"]{' + val + '}\n'
       }
-      /** @see https://www.measurethat.net/Benchmarks/Show/11819/0/dataset-vs-setattribute */
+      /** @see https://measurethat.net/Benchmarks/Show/11819 */
       element.setAttribute('data-reatom', styleId)
     } else if (key === 'style' && typeof val === 'object') {
       for (const key in val) {
@@ -124,9 +126,17 @@ export const reatomJsx = (ctx: Ctx, DOM: DomApis = globalThis.window) => {
       if (key.startsWith('attr:')) {
         key = key.slice(5)
       }
+      if (key === 'className') key = 'class'
       if (val == null || val === false) element.removeAttribute(key)
-      else if (val === true) element.setAttribute(key, '')
-      else element.setAttribute(key, String(val))
+      else {
+        val = val === true ? '' : String(val)
+        /**
+         * @see https://measurethat.net/Benchmarks/Show/54
+         * @see https://measurethat.net/Benchmarks/Show/31249
+         */
+        if (key === 'class' && element instanceof HTMLElement) element.className = val
+        else element.setAttribute(key, val)
+      }
     }
   }
 
