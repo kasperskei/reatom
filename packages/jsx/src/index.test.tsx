@@ -506,13 +506,13 @@ test(
 )
 
 test(
-  'css property and class attribute',
+  'css property and className property',
   setup(async (ctx, h, hf, mount, parent) => {
     const cls = 'class'
     const css = 'color: red;'
 
-    const ref1 = <div css={css} class={cls}></div>
-    const ref2 = <div class={cls} css={css}></div>
+    const ref1 = <div css={css} className={cls}></div>
+    const ref2 = <div className={cls} css={css}></div>
 
     const component = (
       <div>
@@ -590,7 +590,7 @@ test(
 )
 
 test(
-  'class and className attribute',
+  'class and className properties',
   setup(async (ctx, h, hf, mount, parent) => {
     const classAtom = atom('' as string | undefined)
 
@@ -619,8 +619,8 @@ test(
     classAtom(ctx, undefined)
     expect(ref1.className).toBe('')
     expect(ref2.className).toBe('')
-    expect(ref1.hasAttribute('class')).toBe(false)
-    expect(ref2.hasAttribute('class')).toBe(false)
+    expect(ref1.hasAttribute('class')).toBe(true)
+    expect(ref2.hasAttribute('class')).toBe(true)
   }),
 )
 

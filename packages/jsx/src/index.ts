@@ -40,6 +40,25 @@ type DomApis = Pick<
   | 'DocumentFragment'
 >
 
+/**
+ * @see https://github.com/preactjs/preact/blob/d16a34e275e31afd6738a9f82b5ba2fb9dbf032b/src/diff/props.js#L107
+ * @see https://www.measurethat.net/Benchmarks/Show/7818
+ */
+const propertiesAsAttribute = new Set([
+  'width',
+  'height',
+  'href',
+  'list',
+  'form',
+  /** Default value in browsers is `-1` and an empty string is cast to `0` instead */
+  'tabIndex',
+  'download',
+  'rowSpan',
+  'colSpan',
+  'role',
+  'popover',
+])
+
 const isSkipped = (value: unknown): value is boolean | '' | null | undefined =>
   typeof value === 'boolean' || value === '' || value == null
 
@@ -226,20 +245,20 @@ const patchStyleProperty = (
 export const reatomJsx = (
   ctx: Ctx,
   DOM: DomApis = globalThis.window,
-  {
-    stylesheetContainer = DOM.document.head,
-  }: {
+  options: {
     /**
-     * The container to which the styles will be added.
+     * The container to which the styles will be added. Set `null | undefined` to not add styles to the container.
      * @default DOM.document.head
      */
-    stylesheetContainer?: Node
+    stylesheetContainer?: Node | null | undefined
   } = {},
 ) => {
+  /** @see https://www.measurethat.net/Benchmarks/Show/33272 */
   const styles: Rec<string> = {}
-  let stylesheet = (stylesheetContainer ?? DOM.document.head).appendChild(
-    DOM.document.createElement('style'),
-  )
+  let stylesheet = DOM.document.createElement('style')
+  stylesheet.id = 'reatom-jsx-styles'
+  if (!('stylesheetContainer' in options)) options.stylesheetContainer = DOM.document.head
+  options.stylesheetContainer?.appendChild(stylesheet)
   let name = ''
 
   let set = (element: JSX.Element, key: string, val: any) => {
@@ -270,22 +289,32 @@ export const reatomJsx = (
     } else if (key.startsWith('prop:')) {
       // @ts-expect-error
       element[key.slice(5)] = val
+    } else if (
+      !propertiesAsAttribute.has(key)
+      && element instanceof DOM.HTMLElement
+      && (key in element || key === 'class')
+    ) {
+      /**
+       * @see https://measurethat.net/Benchmarks/Show/54
+       * @see https://measurethat.net/Benchmarks/Show/31249
+       */
+      if (key === 'class') key = 'className'
+      // @ts-ignore
+      element[key] = val == null ? '' : val
     } else {
-      if (key.startsWith('attr:')) {
-        key = key.slice(5)
-      }
       if (key === 'className') key = 'class'
-      if (val == null || val === false) element.removeAttribute(key)
-      else {
-        val = val === true ? '' : String(val)
-        /**
-         * @see https://measurethat.net/Benchmarks/Show/54
-         * @see https://measurethat.net/Benchmarks/Show/31249
-         */
-        if (key === 'class' && element instanceof HTMLElement)
-          element.className = val
-        else element.setAttribute(key, val)
-      }
+      else if (key.startsWith('attr:')) key = key.slice(5)
+
+      /**
+       * @note aria- and data- attributes have no boolean representation.
+		   * A `false` value is different from the attribute not being
+		   * present, so we can't remove it. For non-boolean aria
+		   * attributes we could treat false as a removal, but the
+		   * amount of exceptions would cost too many bytes. On top of
+		   * that other frameworks generally stringify `false`.
+       */
+      if (val == null || (val === false && key[4] !== '-')) element.removeAttribute(key)
+      else element.setAttribute(key, key == 'popover' && val == true ? '' : val)
     }
   }
 
