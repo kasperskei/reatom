@@ -428,164 +428,202 @@ export namespace JSX {
     | 'video'
     | 'worker'
 
+  type AriaBoolean = boolean | 'true' | 'false'
+
   // All the WAI-ARIA 1.1 attributes from https://www.w3.org/TR/wai-aria-1.1/
   interface AriaAttributes {
-    /** Identifies the currently active element when DOM focus is on a composite widget, textbox, group, or application. */
-    'aria-activedescendant'?: string
-    /** Indicates whether assistive technologies will present all, or only parts of, the changed region based on the change notifications defined by the aria-relevant attribute. */
-    'aria-atomic'?: boolean | 'false' | 'true'
+    /**
+     * Identifies the currently active element when DOM focus is on a composite widget, textbox, group, or application.
+     */
+    'aria-activedescendant'?: string | undefined
+    /**
+     * Indicates whether assistive technologies will present all, or only parts of, the changed region based on the change notifications defined by the aria-relevant attribute.
+     */
+    'aria-atomic'?: AriaBoolean | undefined
     /**
      * Indicates whether inputting text could trigger display of one or more predictions of the user's intended value for an input and specifies how predictions would be
      * presented if they are made.
      */
-    'aria-autocomplete'?: 'none' | 'inline' | 'list' | 'both'
-    /** Indicates an element is being modified and that assistive technologies MAY want to wait until the modifications are complete before exposing them to the user. */
-    'aria-busy'?: boolean | 'false' | 'true'
+    'aria-autocomplete'?: 'none' | 'inline' | 'list' | 'both' | undefined
     /**
-     * Indicates the current "checked" state of checkboxes, radio buttons, and other widgets.
-     * @see aria-pressed @see aria-selected.
+     * Defines a string value that labels the current element, which is intended to be converted into Braille.
+     * @see aria-label
      */
-    'aria-checked'?: boolean | 'false' | 'mixed' | 'true'
+    'aria-braillelabel'?: string | undefined
+    /**
+     * Defines a human-readable, author-localized abbreviated description for the role of an element, which is intended to be converted into Braille.
+     * @see aria-roledescription
+     */
+    'aria-brailleroledescription'?: string | undefined
+    /**
+     * Indicates an element is being modified and that assistive technologies MAY want to wait until the modifications are complete before exposing them to the user.
+     */
+    'aria-busy'?: AriaBoolean | undefined
+    /**
+     * Indicates the current 'checked' state of checkboxes, radio buttons, and other widgets.
+     * @see aria-pressed
+     * @see aria-selected
+     */
+    'aria-checked'?: AriaBoolean | 'mixed' | undefined
     /**
      * Defines the total number of columns in a table, grid, or treegrid.
-     * @see aria-colindex.
+     * @see aria-colindex
      */
-    'aria-colcount'?: number | string
+    'aria-colcount'?: NumberAttribute | undefined
     /**
      * Defines an element's column index or position with respect to the total number of columns within a table, grid, or treegrid.
-     * @see aria-colcount @see aria-colspan.
+     * @see aria-colcount
+     * @see aria-colspan
      */
-    'aria-colindex'?: number | string
+    'aria-colindex'?: NumberAttribute | undefined
+    /**
+     * Defines a human readable text alternative of aria-colindex.
+     * @see aria-rowindextext
+     */
+    'aria-colindextext'?: string | undefined
     /**
      * Defines the number of columns spanned by a cell or gridcell within a table, grid, or treegrid.
-     * @see aria-colindex @see aria-rowspan.
+     * @see aria-colindex
+     * @see aria-rowspan
      */
-    'aria-colspan'?: number | string
+    'aria-colspan'?: NumberAttribute | undefined
     /**
      * Identifies the element (or elements) whose contents or presence are controlled by the current element.
-     * @see aria-owns.
+     * @see aria-owns
      */
-    'aria-controls'?: string
-    /** Indicates the element that represents the current item within a container or set of related elements. */
-    'aria-current'?:
-      | boolean
-      | 'false'
-      | 'true'
-      | 'page'
-      | 'step'
-      | 'location'
-      | 'date'
-      | 'time'
+    'aria-controls'?: string | undefined
+    /**
+     * Indicates the element that represents the current item within a container or set of related elements.
+     */
+    'aria-current'?: AriaBoolean | 'page' | 'step' | 'location' | 'date' | 'time' | undefined
     /**
      * Identifies the element (or elements) that describes the object.
      * @see aria-labelledby
      */
-    'aria-describedby'?: string
+    'aria-describedby'?: string | undefined
+    /**
+     * Defines a string value that describes or annotates the current element.
+     * @see aria-describedby
+     */
+    'aria-description'?: string | undefined
     /**
      * Identifies the element that provides a detailed, extended description for the object.
-     * @see aria-describedby.
+     * @see aria-describedby
      */
-    'aria-details'?: string
+    'aria-details'?: string | undefined
     /**
      * Indicates that the element is perceivable but disabled, so it is not editable or otherwise operable.
-     * @see aria-hidden @see aria-readonly.
+     * @see aria-hidden
+     * @see aria-readonly
      */
-    'aria-disabled'?: boolean | 'false' | 'true'
+    'aria-disabled'?: AriaBoolean | undefined
     /**
      * Indicates what functions can be performed when a dragged object is released on the drop target.
      * @deprecated in ARIA 1.1
      */
-    'aria-dropeffect'?: 'none' | 'copy' | 'execute' | 'link' | 'move' | 'popup'
+    'aria-dropeffect'?: 'none' | 'copy' | 'execute' | 'link' | 'move' | 'popup' | undefined
     /**
      * Identifies the element that provides an error message for the object.
-     * @see aria-invalid @see aria-describedby.
+     * @see aria-invalid
+     * @see aria-describedby
      */
-    'aria-errormessage'?: string
-    /** Indicates whether the element, or another grouping element it controls, is currently expanded or collapsed. */
-    'aria-expanded'?: boolean | 'false' | 'true'
+    'aria-errormessage'?: string | undefined
+    /**
+     * Indicates whether the element, or another grouping element it controls, is currently expanded or collapsed.
+     */
+    'aria-expanded'?: AriaBoolean | undefined
     /**
      * Identifies the next element (or elements) in an alternate reading order of content which, at the user's discretion,
      * allows assistive technology to override the general default of reading in document source order.
      */
-    'aria-flowto'?: string
+    'aria-flowto'?: string | undefined
     /**
-     * Indicates an element's "grabbed" state in a drag-and-drop operation.
+     * Indicates an element's 'grabbed' state in a drag-and-drop operation.
      * @deprecated in ARIA 1.1
      */
-    'aria-grabbed'?: boolean | 'false' | 'true'
-    /** Indicates the availability and type of interactive popup element, such as menu or dialog, that can be triggered by an element. */
-    'aria-haspopup'?:
-      | boolean
-      | 'false'
-      | 'true'
-      | 'menu'
-      | 'listbox'
-      | 'tree'
-      | 'grid'
-      | 'dialog'
+    'aria-grabbed'?: AriaBoolean | undefined
+    /**
+     * Indicates the availability and type of interactive popup element, such as menu or dialog, that can be triggered by an element.
+     */
+    'aria-haspopup'?: AriaBoolean | 'menu' | 'listbox' | 'tree' | 'grid' | 'dialog' | undefined
     /**
      * Indicates whether the element is exposed to an accessibility API.
-     * @see aria-disabled.
+     * @see aria-disabled
      */
-    'aria-hidden'?: boolean | 'false' | 'true'
+    'aria-hidden'?: AriaBoolean | undefined
     /**
      * Indicates the entered value does not conform to the format expected by the application.
-     * @see aria-errormessage.
+     * @see aria-errormessage
      */
-    'aria-invalid'?: boolean | 'false' | 'true' | 'grammar' | 'spelling'
-    /** Indicates keyboard shortcuts that an author has implemented to activate or give focus to an element. */
-    'aria-keyshortcuts'?: string
+    'aria-invalid'?: AriaBoolean | 'grammar' | 'spelling' | undefined
+    /**
+     * Indicates keyboard shortcuts that an author has implemented to activate or give focus to an element.
+     */
+    'aria-keyshortcuts'?: string | undefined
     /**
      * Defines a string value that labels the current element.
-     * @see aria-labelledby.
+     * @see aria-labelledby
      */
-    'aria-label'?: string
+    'aria-label'?: string | undefined
     /**
      * Identifies the element (or elements) that labels the current element.
-     * @see aria-describedby.
+     * @see aria-describedby
      */
-    'aria-labelledby'?: string
-    /** Defines the hierarchical level of an element within a structure. */
-    'aria-level'?: number | string
-    /** Indicates that an element will be updated, and describes the types of updates the user agents, assistive technologies, and user can expect from the live region. */
-    'aria-live'?: 'off' | 'assertive' | 'polite'
-    /** Indicates whether an element is modal when displayed. */
-    'aria-modal'?: boolean | 'false' | 'true'
-    /** Indicates whether a text box accepts multiple lines of input or only a single line. */
-    'aria-multiline'?: boolean | 'false' | 'true'
-    /** Indicates that the user may select more than one item from the current selectable descendants. */
-    'aria-multiselectable'?: boolean | 'false' | 'true'
-    /** Indicates whether the element's orientation is horizontal, vertical, or unknown/ambiguous. */
-    'aria-orientation'?: 'horizontal' | 'vertical'
+    'aria-labelledby'?: string | undefined
+    /**
+     * Defines the hierarchical level of an element within a structure.
+     */
+    'aria-level'?: NumberAttribute | undefined
+    /**
+     * Indicates that an element will be updated, and describes the types of updates the user agents, assistive technologies, and user can expect from the live region.
+     */
+    'aria-live'?: 'off' | 'assertive' | 'polite' | undefined
+    /**
+     * Indicates whether an element is modal when displayed.
+     */
+    'aria-modal'?: AriaBoolean | undefined
+    /**
+     * Indicates whether a text box accepts multiple lines of input or only a single line.
+     */
+    'aria-multiline'?: AriaBoolean | undefined
+    /**
+     * Indicates that the user may select more than one item from the current selectable descendants.
+     */
+    'aria-multiselectable'?: AriaBoolean | undefined
+    /**
+     * Indicates whether the element's orientation is horizontal, vertical, or unknown/ambiguous.
+     */
+    'aria-orientation'?: 'horizontal' | 'vertical' | undefined
     /**
      * Identifies an element (or elements) in order to define a visual, functional, or contextual parent/child relationship
      * between DOM elements where the DOM hierarchy cannot be used to represent the relationship.
-     * @see aria-controls.
+     * @see aria-controls
      */
-    'aria-owns'?: string
+    'aria-owns'?: string | undefined
     /**
      * Defines a short hint (a word or short phrase) intended to aid the user with data entry when the control has no value.
      * A hint could be a sample value or a brief description of the expected format.
      */
-    'aria-placeholder'?: string
+    'aria-placeholder'?: string | undefined
     /**
      * Defines an element's number or position in the current set of listitems or treeitems. Not required if all elements in the set are present in the DOM.
-     * @see aria-setsize.
+     * @see aria-setsize
      */
-    'aria-posinset'?: number | string
+    'aria-posinset'?: NumberAttribute | undefined
     /**
-     * Indicates the current "pressed" state of toggle buttons.
-     * @see aria-checked @see aria-selected.
+     * Indicates the current 'pressed' state of toggle buttons.
+     * @see aria-checked
+     * @see aria-selected
      */
-    'aria-pressed'?: boolean | 'false' | 'mixed' | 'true'
+    'aria-pressed'?: AriaBoolean | 'mixed' | undefined
     /**
      * Indicates that the element is not editable, but is otherwise operable.
-     * @see aria-disabled.
+     * @see aria-disabled
      */
-    'aria-readonly'?: boolean | 'false' | 'true'
+    'aria-readonly'?: AriaBoolean | undefined
     /**
      * Indicates what notifications the user agent will trigger when the accessibility tree within a live region is modified.
-     * @see aria-atomic.
+     * @see aria-atomic
      */
     'aria-relevant'?:
       | 'additions'
@@ -598,48 +636,72 @@ export namespace JSX {
       | 'text'
       | 'text additions'
       | 'text removals'
-    /** Indicates that user input is required on the element before a form may be submitted. */
-    'aria-required'?: boolean | 'false' | 'true'
-    /** Defines a human-readable, author-localized description for the role of an element. */
-    'aria-roledescription'?: string
+      | undefined
+    /**
+     * Indicates that user input is required on the element before a form may be submitted.
+     */
+    'aria-required'?: AriaBoolean | undefined
+    /**
+     * Defines a human-readable, author-localized description for the role of an element.
+     */
+    'aria-roledescription'?: string | undefined
     /**
      * Defines the total number of rows in a table, grid, or treegrid.
-     * @see aria-rowindex.
+     * @see aria-rowindex
      */
-    'aria-rowcount'?: number | string
+    'aria-rowcount'?: NumberAttribute | undefined
     /**
      * Defines an element's row index or position with respect to the total number of rows within a table, grid, or treegrid.
-     * @see aria-rowcount @see aria-rowspan.
+     * @see aria-rowcount
+     * @see aria-rowspan
      */
-    'aria-rowindex'?: number | string
+    'aria-rowindex'?: NumberAttribute | undefined
+    /**
+     * Defines a human readable text alternative of aria-rowindex.
+     * @see aria-colindextext
+     */
+    'aria-rowindextext'?: string | undefined
     /**
      * Defines the number of rows spanned by a cell or gridcell within a table, grid, or treegrid.
-     * @see aria-rowindex @see aria-colspan.
+     * @see aria-rowindex
+     * @see aria-colspan
      */
-    'aria-rowspan'?: number | string
+    'aria-rowspan'?: NumberAttribute | undefined
     /**
-     * Indicates the current "selected" state of various widgets.
-     * @see aria-checked @see aria-pressed.
+     * Indicates the current 'selected' state of various widgets.
+     * @see aria-checked
+     * @see aria-pressed
      */
-    'aria-selected'?: boolean | 'false' | 'true'
+    'aria-selected'?: AriaBoolean | undefined
     /**
      * Defines the number of items in the current set of listitems or treeitems. Not required if all elements in the set are present in the DOM.
-     * @see aria-posinset.
+     * @see aria-posinset
      */
-    'aria-setsize'?: number | string
-    /** Indicates if items in a table or grid are sorted in ascending or descending order. */
-    'aria-sort'?: 'none' | 'ascending' | 'descending' | 'other'
-    /** Defines the maximum allowed value for a range widget. */
-    'aria-valuemax'?: number | string
-    /** Defines the minimum allowed value for a range widget. */
-    'aria-valuemin'?: number | string
+    'aria-setsize'?: NumberAttribute | undefined
+    /**
+     * Indicates if items in a table or grid are sorted in ascending or descending order.
+     */
+    'aria-sort'?: 'none' | 'ascending' | 'descending' | 'other' | undefined
+    /**
+     * Defines the maximum allowed value for a range widget.
+     */
+    'aria-valuemax'?: NumberAttribute | undefined
+    /**
+     * Defines the minimum allowed value for a range widget.
+     */
+    'aria-valuemin'?: NumberAttribute | undefined
     /**
      * Defines the current value for a range widget.
      * @see aria-valuetext.
      */
-    'aria-valuenow'?: number | string
-    /** Defines the human readable text alternative of aria-valuenow for a range widget. */
-    'aria-valuetext'?: string
+    'aria-valuenow'?: NumberAttribute | undefined
+    /**
+     * Defines the human readable text alternative of aria-valuenow for a range widget.
+     */
+    'aria-valuetext'?: string | undefined
+    /**
+     * @todo Move to another interface.
+     */
     role?:
       | 'alert'
       | 'alertdialog'
@@ -2150,189 +2212,189 @@ export namespace JSX {
   /**
    * @type {SVGElementTagNameMap}
    */
-  interface SVGElementTags {
-    'svg:animate': AnimateSVGAttributes<SVGAnimateElement>
-    'svg:animateMotion': AnimateMotionSVGAttributes<SVGAnimateMotionElement>
-    'svg:animateTransform': AnimateTransformSVGAttributes<SVGAnimateTransformElement>
-    'svg:circle': CircleSVGAttributes<SVGCircleElement>
-    'svg:clipPath': ClipPathSVGAttributes<SVGClipPathElement>
-    'svg:defs': DefsSVGAttributes<SVGDefsElement>
-    'svg:desc': DescSVGAttributes<SVGDescElement>
-    'svg:ellipse': EllipseSVGAttributes<SVGEllipseElement>
-    'svg:feBlend': FeBlendSVGAttributes<SVGFEBlendElement>
-    'svg:feColorMatrix': FeColorMatrixSVGAttributes<SVGFEColorMatrixElement>
-    'svg:feComponentTransfer': FeComponentTransferSVGAttributes<SVGFEComponentTransferElement>
-    'svg:feComposite': FeCompositeSVGAttributes<SVGFECompositeElement>
-    'svg:feConvolveMatrix': FeConvolveMatrixSVGAttributes<SVGFEConvolveMatrixElement>
-    'svg:feDiffuseLighting': FeDiffuseLightingSVGAttributes<SVGFEDiffuseLightingElement>
-    'svg:feDisplacementMap': FeDisplacementMapSVGAttributes<SVGFEDisplacementMapElement>
-    'svg:feDistantLight': FeDistantLightSVGAttributes<SVGFEDistantLightElement>
-    'svg:feDropShadow': FeDropShadowSVGAttributes<SVGFEDropShadowElement>
-    'svg:feFlood': FeFloodSVGAttributes<SVGFEFloodElement>
-    'svg:feFuncA': FeFuncSVGAttributes<SVGFEFuncAElement>
-    'svg:feFuncB': FeFuncSVGAttributes<SVGFEFuncBElement>
-    'svg:feFuncG': FeFuncSVGAttributes<SVGFEFuncGElement>
-    'svg:feFuncR': FeFuncSVGAttributes<SVGFEFuncRElement>
-    'svg:feGaussianBlur': FeGaussianBlurSVGAttributes<SVGFEGaussianBlurElement>
-    'svg:feImage': FeImageSVGAttributes<SVGFEImageElement>
-    'svg:feMerge': FeMergeSVGAttributes<SVGFEMergeElement>
-    'svg:feMergeNode': FeMergeNodeSVGAttributes<SVGFEMergeNodeElement>
-    'svg:feMorphology': FeMorphologySVGAttributes<SVGFEMorphologyElement>
-    'svg:feOffset': FeOffsetSVGAttributes<SVGFEOffsetElement>
-    'svg:fePointLight': FePointLightSVGAttributes<SVGFEPointLightElement>
-    'svg:feSpecularLighting': FeSpecularLightingSVGAttributes<SVGFESpecularLightingElement>
-    'svg:feSpotLight': FeSpotLightSVGAttributes<SVGFESpotLightElement>
-    'svg:feTile': FeTileSVGAttributes<SVGFETileElement>
-    'svg:feTurbulence': FeTurbulanceSVGAttributes<SVGFETurbulenceElement>
-    'svg:filter': FilterSVGAttributes<SVGFilterElement>
-    'svg:foreignObject': ForeignObjectSVGAttributes<SVGForeignObjectElement>
-    'svg:g': GSVGAttributes<SVGGElement>
-    'svg:image': ImageSVGAttributes<SVGImageElement>
-    'svg:line': LineSVGAttributes<SVGLineElement>
-    'svg:linearGradient': LinearGradientSVGAttributes<SVGLinearGradientElement>
-    'svg:marker': MarkerSVGAttributes<SVGMarkerElement>
-    'svg:mask': MaskSVGAttributes<SVGMaskElement>
-    'svg:metadata': MetadataSVGAttributes<SVGMetadataElement>
-    'svg:mpath': MPathSVGAttributes<SVGMPathElement>
-    'svg:path': PathSVGAttributes<SVGPathElement>
-    'svg:pattern': PatternSVGAttributes<SVGPatternElement>
-    'svg:polygon': PolygonSVGAttributes<SVGPolygonElement>
-    'svg:polyline': PolylineSVGAttributes<SVGPolylineElement>
-    'svg:radialGradient': RadialGradientSVGAttributes<SVGRadialGradientElement>
-    'svg:rect': RectSVGAttributes<SVGRectElement>
-    'svg:set': SetSVGAttributes<SVGSetElement>
-    'svg:stop': StopSVGAttributes<SVGStopElement>
-    'svg:svg': SvgSVGAttributes<SVGSVGElement>
-    'svg:switch': SwitchSVGAttributes<SVGSwitchElement>
-    'svg:symbol': SymbolSVGAttributes<SVGSymbolElement>
-    'svg:text': TextSVGAttributes<SVGTextElement>
-    'svg:textPath': TextPathSVGAttributes<SVGTextPathElement>
-    'svg:tspan': TSpanSVGAttributes<SVGTSpanElement>
-    'svg:use': UseSVGAttributes<SVGUseElement>
-    'svg:view': ViewSVGAttributes<SVGViewElement>
-  }
+  // interface SVGElementTags {
+  //   'svg:animate': AnimateSVGAttributes<SVGAnimateElement>
+  //   'svg:animateMotion': AnimateMotionSVGAttributes<SVGAnimateMotionElement>
+  //   'svg:animateTransform': AnimateTransformSVGAttributes<SVGAnimateTransformElement>
+  //   'svg:circle': CircleSVGAttributes<SVGCircleElement>
+  //   'svg:clipPath': ClipPathSVGAttributes<SVGClipPathElement>
+  //   'svg:defs': DefsSVGAttributes<SVGDefsElement>
+  //   'svg:desc': DescSVGAttributes<SVGDescElement>
+  //   'svg:ellipse': EllipseSVGAttributes<SVGEllipseElement>
+  //   'svg:feBlend': FeBlendSVGAttributes<SVGFEBlendElement>
+  //   'svg:feColorMatrix': FeColorMatrixSVGAttributes<SVGFEColorMatrixElement>
+  //   'svg:feComponentTransfer': FeComponentTransferSVGAttributes<SVGFEComponentTransferElement>
+  //   'svg:feComposite': FeCompositeSVGAttributes<SVGFECompositeElement>
+  //   'svg:feConvolveMatrix': FeConvolveMatrixSVGAttributes<SVGFEConvolveMatrixElement>
+  //   'svg:feDiffuseLighting': FeDiffuseLightingSVGAttributes<SVGFEDiffuseLightingElement>
+  //   'svg:feDisplacementMap': FeDisplacementMapSVGAttributes<SVGFEDisplacementMapElement>
+  //   'svg:feDistantLight': FeDistantLightSVGAttributes<SVGFEDistantLightElement>
+  //   'svg:feDropShadow': FeDropShadowSVGAttributes<SVGFEDropShadowElement>
+  //   'svg:feFlood': FeFloodSVGAttributes<SVGFEFloodElement>
+  //   'svg:feFuncA': FeFuncSVGAttributes<SVGFEFuncAElement>
+  //   'svg:feFuncB': FeFuncSVGAttributes<SVGFEFuncBElement>
+  //   'svg:feFuncG': FeFuncSVGAttributes<SVGFEFuncGElement>
+  //   'svg:feFuncR': FeFuncSVGAttributes<SVGFEFuncRElement>
+  //   'svg:feGaussianBlur': FeGaussianBlurSVGAttributes<SVGFEGaussianBlurElement>
+  //   'svg:feImage': FeImageSVGAttributes<SVGFEImageElement>
+  //   'svg:feMerge': FeMergeSVGAttributes<SVGFEMergeElement>
+  //   'svg:feMergeNode': FeMergeNodeSVGAttributes<SVGFEMergeNodeElement>
+  //   'svg:feMorphology': FeMorphologySVGAttributes<SVGFEMorphologyElement>
+  //   'svg:feOffset': FeOffsetSVGAttributes<SVGFEOffsetElement>
+  //   'svg:fePointLight': FePointLightSVGAttributes<SVGFEPointLightElement>
+  //   'svg:feSpecularLighting': FeSpecularLightingSVGAttributes<SVGFESpecularLightingElement>
+  //   'svg:feSpotLight': FeSpotLightSVGAttributes<SVGFESpotLightElement>
+  //   'svg:feTile': FeTileSVGAttributes<SVGFETileElement>
+  //   'svg:feTurbulence': FeTurbulanceSVGAttributes<SVGFETurbulenceElement>
+  //   'svg:filter': FilterSVGAttributes<SVGFilterElement>
+  //   'svg:foreignObject': ForeignObjectSVGAttributes<SVGForeignObjectElement>
+  //   'svg:g': GSVGAttributes<SVGGElement>
+  //   'svg:image': ImageSVGAttributes<SVGImageElement>
+  //   'svg:line': LineSVGAttributes<SVGLineElement>
+  //   'svg:linearGradient': LinearGradientSVGAttributes<SVGLinearGradientElement>
+  //   'svg:marker': MarkerSVGAttributes<SVGMarkerElement>
+  //   'svg:mask': MaskSVGAttributes<SVGMaskElement>
+  //   'svg:metadata': MetadataSVGAttributes<SVGMetadataElement>
+  //   'svg:mpath': MPathSVGAttributes<SVGMPathElement>
+  //   'svg:path': PathSVGAttributes<SVGPathElement>
+  //   'svg:pattern': PatternSVGAttributes<SVGPatternElement>
+  //   'svg:polygon': PolygonSVGAttributes<SVGPolygonElement>
+  //   'svg:polyline': PolylineSVGAttributes<SVGPolylineElement>
+  //   'svg:radialGradient': RadialGradientSVGAttributes<SVGRadialGradientElement>
+  //   'svg:rect': RectSVGAttributes<SVGRectElement>
+  //   'svg:set': SetSVGAttributes<SVGSetElement>
+  //   'svg:stop': StopSVGAttributes<SVGStopElement>
+  //   'svg:svg': SvgSVGAttributes<SVGSVGElement>
+  //   'svg:switch': SwitchSVGAttributes<SVGSwitchElement>
+  //   'svg:symbol': SymbolSVGAttributes<SVGSymbolElement>
+  //   'svg:text': TextSVGAttributes<SVGTextElement>
+  //   'svg:textPath': TextPathSVGAttributes<SVGTextPathElement>
+  //   'svg:tspan': TSpanSVGAttributes<SVGTSpanElement>
+  //   'svg:use': UseSVGAttributes<SVGUseElement>
+  //   'svg:view': ViewSVGAttributes<SVGViewElement>
+  // }
 
   // #endregion
 
   /**
    * @type {HTMLElementTagNameMap}
    */
-  interface HTMLElementTags {
-    a: AnchorHTMLAttributes<HTMLElementTagNameMap['a']>
-    abbr: HTMLAttributes<HTMLElementTagNameMap['abbr']>
-    address: HTMLAttributes<HTMLElementTagNameMap['address']>
-    area: AreaHTMLAttributes<HTMLElementTagNameMap['area']>
-    article: HTMLAttributes<HTMLElementTagNameMap['article']>
-    aside: HTMLAttributes<HTMLElementTagNameMap['aside']>
-    audio: AudioHTMLAttributes<HTMLElementTagNameMap['audio']>
-    b: HTMLAttributes<HTMLElementTagNameMap['b']>
-    base: BaseHTMLAttributes<HTMLElementTagNameMap['base']>
-    bdi: HTMLAttributes<HTMLElementTagNameMap['bdi']>
-    bdo: HTMLAttributes<HTMLElementTagNameMap['bdo']>
-    blockquote: BlockquoteHTMLAttributes<HTMLElementTagNameMap['blockquote']>
-    body: HTMLAttributes<HTMLElementTagNameMap['body']>
-    br: HTMLAttributes<HTMLElementTagNameMap['br']>
-    button: ButtonHTMLAttributes<HTMLElementTagNameMap['button']>
-    canvas: CanvasHTMLAttributes<HTMLElementTagNameMap['canvas']>
-    caption: HTMLAttributes<HTMLElementTagNameMap['caption']>
-    cite: HTMLAttributes<HTMLElementTagNameMap['cite']>
-    code: HTMLAttributes<HTMLElementTagNameMap['code']>
-    col: ColHTMLAttributes<HTMLElementTagNameMap['col']>
-    colgroup: ColgroupHTMLAttributes<HTMLElementTagNameMap['colgroup']>
-    data: DataHTMLAttributes<HTMLElementTagNameMap['data']>
-    datalist: HTMLAttributes<HTMLElementTagNameMap['datalist']>
-    dd: HTMLAttributes<HTMLElementTagNameMap['dd']>
-    del: HTMLAttributes<HTMLElementTagNameMap['del']>
-    details: DetailsHtmlAttributes<HTMLElementTagNameMap['details']>
-    dfn: HTMLAttributes<HTMLElementTagNameMap['dfn']>
-    dialog: DialogHtmlAttributes<HTMLElementTagNameMap['dialog']>
-    div: HTMLAttributes<HTMLElementTagNameMap['div']>
-    dl: HTMLAttributes<HTMLElementTagNameMap['dl']>
-    dt: HTMLAttributes<HTMLElementTagNameMap['dt']>
-    em: HTMLAttributes<HTMLElementTagNameMap['em']>
-    embed: EmbedHTMLAttributes<HTMLElementTagNameMap['embed']>
-    fieldset: FieldsetHTMLAttributes<HTMLElementTagNameMap['fieldset']>
-    figcaption: HTMLAttributes<HTMLElementTagNameMap['figcaption']>
-    figure: HTMLAttributes<HTMLElementTagNameMap['figure']>
-    footer: HTMLAttributes<HTMLElementTagNameMap['footer']>
-    form: FormHTMLAttributes<HTMLElementTagNameMap['form']>
-    h1: HTMLAttributes<HTMLElementTagNameMap['h1']>
-    h2: HTMLAttributes<HTMLElementTagNameMap['h2']>
-    h3: HTMLAttributes<HTMLElementTagNameMap['h3']>
-    h4: HTMLAttributes<HTMLElementTagNameMap['h4']>
-    h5: HTMLAttributes<HTMLElementTagNameMap['h5']>
-    h6: HTMLAttributes<HTMLElementTagNameMap['h6']>
-    head: HTMLAttributes<HTMLElementTagNameMap['head']>
-    header: HTMLAttributes<HTMLElementTagNameMap['header']>
-    hgroup: HTMLAttributes<HTMLElementTagNameMap['hgroup']>
-    hr: HTMLAttributes<HTMLElementTagNameMap['hr']>
-    html: HTMLAttributes<HTMLElementTagNameMap['html']>
-    i: HTMLAttributes<HTMLElementTagNameMap['i']>
-    iframe: IframeHTMLAttributes<HTMLElementTagNameMap['iframe']>
-    img: ImgHTMLAttributes<HTMLElementTagNameMap['img']>
-    input: InputHTMLAttributes<HTMLElementTagNameMap['input']>
-    ins: InsHTMLAttributes<HTMLElementTagNameMap['ins']>
-    kbd: HTMLAttributes<HTMLElementTagNameMap['kbd']>
-    label: LabelHTMLAttributes<HTMLElementTagNameMap['label']>
-    legend: HTMLAttributes<HTMLElementTagNameMap['legend']>
-    li: LiHTMLAttributes<HTMLElementTagNameMap['li']>
-    link: LinkHTMLAttributes<HTMLElementTagNameMap['link']>
-    main: HTMLAttributes<HTMLElementTagNameMap['main']>
-    map: MapHTMLAttributes<HTMLElementTagNameMap['map']>
-    mark: HTMLAttributes<HTMLElementTagNameMap['mark']>
-    menu: MenuHTMLAttributes<HTMLElementTagNameMap['menu']>
-    meta: MetaHTMLAttributes<HTMLElementTagNameMap['meta']>
-    meter: MeterHTMLAttributes<HTMLElementTagNameMap['meter']>
-    nav: HTMLAttributes<HTMLElementTagNameMap['nav']>
-    noscript: HTMLAttributes<HTMLElementTagNameMap['noscript']>
-    object: ObjectHTMLAttributes<HTMLElementTagNameMap['object']>
-    ol: OlHTMLAttributes<HTMLElementTagNameMap['ol']>
-    optgroup: OptgroupHTMLAttributes<HTMLElementTagNameMap['optgroup']>
-    option: OptionHTMLAttributes<HTMLElementTagNameMap['option']>
-    output: OutputHTMLAttributes<HTMLElementTagNameMap['output']>
-    p: HTMLAttributes<HTMLElementTagNameMap['p']>
-    picture: HTMLAttributes<HTMLElementTagNameMap['picture']>
-    pre: HTMLAttributes<HTMLElementTagNameMap['pre']>
-    progress: ProgressHTMLAttributes<HTMLElementTagNameMap['progress']>
-    q: QuoteHTMLAttributes<HTMLElementTagNameMap['q']>
-    rp: HTMLAttributes<HTMLElementTagNameMap['rp']>
-    rt: HTMLAttributes<HTMLElementTagNameMap['rt']>
-    ruby: HTMLAttributes<HTMLElementTagNameMap['ruby']>
-    s: HTMLAttributes<HTMLElementTagNameMap['s']>
-    samp: HTMLAttributes<HTMLElementTagNameMap['samp']>
-    script: ScriptHTMLAttributes<HTMLElementTagNameMap['script']>
-    search: HTMLAttributes<HTMLElementTagNameMap['search']>
-    section: HTMLAttributes<HTMLElementTagNameMap['section']>
-    select: SelectHTMLAttributes<HTMLElementTagNameMap['select']>
-    slot: HTMLSlotElementAttributes
-    HTMLElementTagNameMap: HTMLAttributes<
-      HTMLElementTagNameMap['HTMLElementTagNameMap']
-    >
-    source: SourceHTMLAttributes<HTMLElementTagNameMap['source']>
-    span: HTMLAttributes<HTMLElementTagNameMap['span']>
-    strong: HTMLAttributes<HTMLElementTagNameMap['strong']>
-    style: StyleHTMLAttributes<HTMLElementTagNameMap['style']>
-    sub: HTMLAttributes<HTMLElementTagNameMap['sub']>
-    summary: HTMLAttributes<HTMLElementTagNameMap['summary']>
-    sup: HTMLAttributes<HTMLElementTagNameMap['sup']>
-    table: HTMLAttributes<HTMLElementTagNameMap['table']>
-    tbody: HTMLAttributes<HTMLElementTagNameMap['tbody']>
-    td: TdHTMLAttributes<HTMLElementTagNameMap['td']>
-    template: TemplateHTMLAttributes<HTMLElementTagNameMap['template']>
-    textarea: TextareaHTMLAttributes<HTMLElementTagNameMap['textarea']>
-    tfoot: HTMLAttributes<HTMLElementTagNameMap['tfoot']>
-    th: ThHTMLAttributes<HTMLElementTagNameMap['th']>
-    thead: HTMLAttributes<HTMLElementTagNameMap['thead']>
-    time: TimeHTMLAttributes<HTMLElementTagNameMap['time']>
-    title: HTMLAttributes<HTMLElementTagNameMap['title']>
-    tr: HTMLAttributes<HTMLElementTagNameMap['tr']>
-    track: TrackHTMLAttributes<HTMLElementTagNameMap['track']>
-    u: HTMLAttributes<HTMLElementTagNameMap['u']>
-    ul: HTMLAttributes<HTMLElementTagNameMap['ul']>
-    var: HTMLAttributes<HTMLElementTagNameMap['var']>
-    video: VideoHTMLAttributes<HTMLElementTagNameMap['video']>
-    wbr: HTMLAttributes<HTMLElementTagNameMap['wbr']>
-  }
+  // interface HTMLElementTags {
+  //   a: AnchorHTMLAttributes<HTMLElementTagNameMap['a']>
+  //   abbr: HTMLAttributes<HTMLElementTagNameMap['abbr']>
+  //   address: HTMLAttributes<HTMLElementTagNameMap['address']>
+  //   area: AreaHTMLAttributes<HTMLElementTagNameMap['area']>
+  //   article: HTMLAttributes<HTMLElementTagNameMap['article']>
+  //   aside: HTMLAttributes<HTMLElementTagNameMap['aside']>
+  //   audio: AudioHTMLAttributes<HTMLElementTagNameMap['audio']>
+  //   b: HTMLAttributes<HTMLElementTagNameMap['b']>
+  //   base: BaseHTMLAttributes<HTMLElementTagNameMap['base']>
+  //   bdi: HTMLAttributes<HTMLElementTagNameMap['bdi']>
+  //   bdo: HTMLAttributes<HTMLElementTagNameMap['bdo']>
+  //   blockquote: BlockquoteHTMLAttributes<HTMLElementTagNameMap['blockquote']>
+  //   body: HTMLAttributes<HTMLElementTagNameMap['body']>
+  //   br: HTMLAttributes<HTMLElementTagNameMap['br']>
+  //   button: ButtonHTMLAttributes<HTMLElementTagNameMap['button']>
+  //   canvas: CanvasHTMLAttributes<HTMLElementTagNameMap['canvas']>
+  //   caption: HTMLAttributes<HTMLElementTagNameMap['caption']>
+  //   cite: HTMLAttributes<HTMLElementTagNameMap['cite']>
+  //   code: HTMLAttributes<HTMLElementTagNameMap['code']>
+  //   col: ColHTMLAttributes<HTMLElementTagNameMap['col']>
+  //   colgroup: ColgroupHTMLAttributes<HTMLElementTagNameMap['colgroup']>
+  //   data: DataHTMLAttributes<HTMLElementTagNameMap['data']>
+  //   datalist: HTMLAttributes<HTMLElementTagNameMap['datalist']>
+  //   dd: HTMLAttributes<HTMLElementTagNameMap['dd']>
+  //   del: HTMLAttributes<HTMLElementTagNameMap['del']>
+  //   details: DetailsHtmlAttributes<HTMLElementTagNameMap['details']>
+  //   dfn: HTMLAttributes<HTMLElementTagNameMap['dfn']>
+  //   dialog: DialogHtmlAttributes<HTMLElementTagNameMap['dialog']>
+  //   div: HTMLAttributes<HTMLElementTagNameMap['div']>
+  //   dl: HTMLAttributes<HTMLElementTagNameMap['dl']>
+  //   dt: HTMLAttributes<HTMLElementTagNameMap['dt']>
+  //   em: HTMLAttributes<HTMLElementTagNameMap['em']>
+  //   embed: EmbedHTMLAttributes<HTMLElementTagNameMap['embed']>
+  //   fieldset: FieldsetHTMLAttributes<HTMLElementTagNameMap['fieldset']>
+  //   figcaption: HTMLAttributes<HTMLElementTagNameMap['figcaption']>
+  //   figure: HTMLAttributes<HTMLElementTagNameMap['figure']>
+  //   footer: HTMLAttributes<HTMLElementTagNameMap['footer']>
+  //   form: FormHTMLAttributes<HTMLElementTagNameMap['form']>
+  //   h1: HTMLAttributes<HTMLElementTagNameMap['h1']>
+  //   h2: HTMLAttributes<HTMLElementTagNameMap['h2']>
+  //   h3: HTMLAttributes<HTMLElementTagNameMap['h3']>
+  //   h4: HTMLAttributes<HTMLElementTagNameMap['h4']>
+  //   h5: HTMLAttributes<HTMLElementTagNameMap['h5']>
+  //   h6: HTMLAttributes<HTMLElementTagNameMap['h6']>
+  //   head: HTMLAttributes<HTMLElementTagNameMap['head']>
+  //   header: HTMLAttributes<HTMLElementTagNameMap['header']>
+  //   hgroup: HTMLAttributes<HTMLElementTagNameMap['hgroup']>
+  //   hr: HTMLAttributes<HTMLElementTagNameMap['hr']>
+  //   html: HTMLAttributes<HTMLElementTagNameMap['html']>
+  //   i: HTMLAttributes<HTMLElementTagNameMap['i']>
+  //   iframe: IframeHTMLAttributes<HTMLElementTagNameMap['iframe']>
+  //   img: ImgHTMLAttributes<HTMLElementTagNameMap['img']>
+  //   input: InputHTMLAttributes<HTMLElementTagNameMap['input']>
+  //   ins: InsHTMLAttributes<HTMLElementTagNameMap['ins']>
+  //   kbd: HTMLAttributes<HTMLElementTagNameMap['kbd']>
+  //   label: LabelHTMLAttributes<HTMLElementTagNameMap['label']>
+  //   legend: HTMLAttributes<HTMLElementTagNameMap['legend']>
+  //   li: LiHTMLAttributes<HTMLElementTagNameMap['li']>
+  //   link: LinkHTMLAttributes<HTMLElementTagNameMap['link']>
+  //   main: HTMLAttributes<HTMLElementTagNameMap['main']>
+  //   map: MapHTMLAttributes<HTMLElementTagNameMap['map']>
+  //   mark: HTMLAttributes<HTMLElementTagNameMap['mark']>
+  //   menu: MenuHTMLAttributes<HTMLElementTagNameMap['menu']>
+  //   meta: MetaHTMLAttributes<HTMLElementTagNameMap['meta']>
+  //   meter: MeterHTMLAttributes<HTMLElementTagNameMap['meter']>
+  //   nav: HTMLAttributes<HTMLElementTagNameMap['nav']>
+  //   noscript: HTMLAttributes<HTMLElementTagNameMap['noscript']>
+  //   object: ObjectHTMLAttributes<HTMLElementTagNameMap['object']>
+  //   ol: OlHTMLAttributes<HTMLElementTagNameMap['ol']>
+  //   optgroup: OptgroupHTMLAttributes<HTMLElementTagNameMap['optgroup']>
+  //   option: OptionHTMLAttributes<HTMLElementTagNameMap['option']>
+  //   output: OutputHTMLAttributes<HTMLElementTagNameMap['output']>
+  //   p: HTMLAttributes<HTMLElementTagNameMap['p']>
+  //   picture: HTMLAttributes<HTMLElementTagNameMap['picture']>
+  //   pre: HTMLAttributes<HTMLElementTagNameMap['pre']>
+  //   progress: ProgressHTMLAttributes<HTMLElementTagNameMap['progress']>
+  //   q: QuoteHTMLAttributes<HTMLElementTagNameMap['q']>
+  //   rp: HTMLAttributes<HTMLElementTagNameMap['rp']>
+  //   rt: HTMLAttributes<HTMLElementTagNameMap['rt']>
+  //   ruby: HTMLAttributes<HTMLElementTagNameMap['ruby']>
+  //   s: HTMLAttributes<HTMLElementTagNameMap['s']>
+  //   samp: HTMLAttributes<HTMLElementTagNameMap['samp']>
+  //   script: ScriptHTMLAttributes<HTMLElementTagNameMap['script']>
+  //   search: HTMLAttributes<HTMLElementTagNameMap['search']>
+  //   section: HTMLAttributes<HTMLElementTagNameMap['section']>
+  //   select: SelectHTMLAttributes<HTMLElementTagNameMap['select']>
+  //   slot: HTMLSlotElementAttributes
+  //   HTMLElementTagNameMap: HTMLAttributes<
+  //     HTMLElementTagNameMap['HTMLElementTagNameMap']
+  //   >
+  //   source: SourceHTMLAttributes<HTMLElementTagNameMap['source']>
+  //   span: HTMLAttributes<HTMLElementTagNameMap['span']>
+  //   strong: HTMLAttributes<HTMLElementTagNameMap['strong']>
+  //   style: StyleHTMLAttributes<HTMLElementTagNameMap['style']>
+  //   sub: HTMLAttributes<HTMLElementTagNameMap['sub']>
+  //   summary: HTMLAttributes<HTMLElementTagNameMap['summary']>
+  //   sup: HTMLAttributes<HTMLElementTagNameMap['sup']>
+  //   table: HTMLAttributes<HTMLElementTagNameMap['table']>
+  //   tbody: HTMLAttributes<HTMLElementTagNameMap['tbody']>
+  //   td: TdHTMLAttributes<HTMLElementTagNameMap['td']>
+  //   template: TemplateHTMLAttributes<HTMLElementTagNameMap['template']>
+  //   textarea: TextareaHTMLAttributes<HTMLElementTagNameMap['textarea']>
+  //   tfoot: HTMLAttributes<HTMLElementTagNameMap['tfoot']>
+  //   th: ThHTMLAttributes<HTMLElementTagNameMap['th']>
+  //   thead: HTMLAttributes<HTMLElementTagNameMap['thead']>
+  //   time: TimeHTMLAttributes<HTMLElementTagNameMap['time']>
+  //   title: HTMLAttributes<HTMLElementTagNameMap['title']>
+  //   tr: HTMLAttributes<HTMLElementTagNameMap['tr']>
+  //   track: TrackHTMLAttributes<HTMLElementTagNameMap['track']>
+  //   u: HTMLAttributes<HTMLElementTagNameMap['u']>
+  //   ul: HTMLAttributes<HTMLElementTagNameMap['ul']>
+  //   var: HTMLAttributes<HTMLElementTagNameMap['var']>
+  //   video: VideoHTMLAttributes<HTMLElementTagNameMap['video']>
+  //   wbr: HTMLAttributes<HTMLElementTagNameMap['wbr']>
+  // }
   /**
    * @type {HTMLElementDeprecatedTagNameMap}
    */
@@ -2343,6 +2405,43 @@ export namespace JSX {
     noindex: HTMLAttributes<HTMLElement>
     param: ParamHTMLAttributes<HTMLParamElement>
   }
+
+  type HTMLElementTags = ElementsAttributesAtomMaybe<DefineElementTagNameMap<HTMLElementTagNameMap>>
+  type SVGElementTags = ElementsAttributesAtomMaybe<AddKeysPrefix<DefineElementTagNameMap<SVGElementTagNameMap>, 'svg:'>>
+
+  type X = HTMLElementTags['a']
+
+  type Y = X['accessKey']
+
+  type DefineElementTagNameMap<T extends object> = {
+    [K in keyof T]: Pick<T[K], PrimitiveWritableKeysOf<T[K]>>
+  }
+
+  type PrimitiveWritableKeysOf<T> = keyof {
+    [K in WritableKeysOf<T> as T[K] extends Primitive ? K : never]: never
+  }
+
+  type AddKeysPrefix<T, Prefix extends string> = {
+    [K in keyof T as `${Prefix}${string & K}`]: T[K]
+  }
+
+  type AttributesAtomMaybe<T extends Record<any, any>> = {
+    [K in keyof T]: T[K] | Atom<T[K]>
+  }
+
+  type ElementsAttributesAtomMaybe<T extends Record<any, any>> = {
+    [K in keyof T]: AttributesAtomMaybe<T[K]>
+  }
+
+  type WritableKeysOf<T> = NonNullable<{
+    [P in keyof T]: IsEqual<{[Q in P]: T[P]}, {readonly [Q in P]: T[P]}> extends false ? P : never
+  }[keyof T]>;
+
+  type IsEqual<A, B> =
+	  (<G>() => G extends A & G | G ? 1 : 2) extends
+	  (<G>() => G extends B & G | G ? 1 : 2)
+	  	? true
+	  	: false;
 
   interface IntrinsicElements
     extends ElementsAttributesAtomMaybe<HTMLElementTags>,

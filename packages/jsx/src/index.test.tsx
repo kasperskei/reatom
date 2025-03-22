@@ -877,3 +877,20 @@ test(
     )
   }),
 )
+
+test(
+  'aria attributes',
+  setup((ctx, h, hf, mount, parent) => {
+    expect((<p aria-checked={undefined}></p>).ariaChecked).toBe(null)
+    expect((<p aria-checked={null}></p>).ariaChecked).toBe(null)
+
+    expect((<p aria-checked={true}></p>).ariaChecked).toBe('true')
+    expect((<p aria-checked={false}></p>).ariaChecked).toBe('false')
+
+    expect((<p aria-checked="true"></p>).ariaChecked).toBe('true')
+    expect((<p aria-checked="false"></p>).ariaChecked).toBe('false')
+
+    expect((<p aria-colcount={1}></p>).ariaColCount).toBe('1')
+    expect((<p aria-colcount="1"></p>).ariaColCount).toBe('1')
+  }),
+)

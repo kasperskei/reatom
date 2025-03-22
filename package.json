@@ -12,7 +12,8 @@
     "package-generator": "tsx tools/new-package.ts",
     "update": "npx npm-check-updates -u",
     "prepare": "git config blame.ignoreRevsFile .git-blame-ignore-revs && husky",
-    "actualize-issue-templates": "npx tsx ./tools/actualize-issue-templates.ts"
+    "actualize-issue-templates": "npx tsx ./tools/actualize-issue-templates.ts",
+    "extract-type": "bun run ./extract-type.ts"
   },
   "workspaces": [
     "./packages/*"
@@ -32,7 +33,8 @@
     "typescript": "^5.7.3",
     "vitest": "^3.0.8",
     "yoctobundle": "latest",
-    "zx": "^8.3.2"
+    "zx": "^8.3.2",
+    "ts-morph": "latest"
   },
   "author": "artalar",
   "license": "MIT",
