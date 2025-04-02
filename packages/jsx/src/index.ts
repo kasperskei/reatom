@@ -43,23 +43,9 @@ type DomApis = Pick<
 const isSkipped = (value: unknown): value is boolean | '' | null | undefined =>
   typeof value === 'boolean' || value === '' || value == null
 
-let unsubscribesMap = new WeakMap<Node, Array<Fn>>()
-let unlink = (parent: Node, un: Unsubscribe) => {
-  // check the connection in the next tick
-  // to give the user (programmer) an ability
-  // to put the created element in the dom
-  Promise.resolve().then(() => {
-    if (!parent.isConnected) un()
-    else {
-      while (
-        parent.parentElement &&
-        !unsubscribesMap.get(parent)?.push(() => parent.isConnected || un())
-      ) {
-        parent = parent.parentElement
-      }
-    }
-  })
-}
+let unsubscribesRegistry = new FinalizationRegistry<Unsubscribe>((unsubscribe) => unsubscribe())
+let onMountedMap = new WeakMap<Node, (ctx: Ctx, element: Node) => ((ctx: Ctx, element: Node) => void) | undefined>()
+let onUnmountedMap = new WeakMap<Node, (ctx: Ctx, element: Node) => void>()
 
 const walkLinkedList = (
   ctx: Ctx,
@@ -138,7 +124,7 @@ const walkLinkedList = (
 
   cb(ctx.get(list))
 
-  unlink(el, () => {
+  unsubscribesRegistry.register(el, () => {
     unSubscribe()
     unChange()
   })
@@ -208,8 +194,7 @@ const walkAtom = (
 
   const un = ctx.subscribe(anAtom, fragment.__reatomFragment.update)
 
-  unsubscribesMap.set(fragment.__reatomFragment.start, [])
-  unlink(fragment.__reatomFragment.start, un)
+  unsubscribesRegistry.register(fragment.__reatomFragment.start, un)
 
   return fragment
 }
@@ -341,14 +326,7 @@ export const reatomJsx = (
       if (k !== 'children' && k !== 'element') {
         let prop = props[k]
         if (k === 'ref') {
-          ctx.schedule(() => {
-            const cleanup = prop(ctx, element)
-            if (typeof cleanup === 'function') {
-              let list = unsubscribesMap.get(element)
-              if (!list) unsubscribesMap.set(element, (list = []))
-              unlink(element, () => cleanup(ctx, element))
-            }
-          })
+          onMountedMap.set(element, prop)
         } else if (isAtom(prop) && !prop.__reatom.isAction) {
           if (k.startsWith('model:')) {
             let name = (k = k.slice(6)) as 'value' | 'valueAsNumber' | 'checked'
@@ -379,7 +357,7 @@ export const reatomJsx = (
               : un(),
           )
 
-          unlink(element, un)
+          unsubscribesRegistry.register(element, un)
         } else {
           set(element, k, prop)
         }
@@ -422,20 +400,22 @@ export const reatomJsx = (
     // target.append(...[child].flat(Infinity))
     target.append(child)
 
+    let walk = (root: Node, cb: (node: Node) => void) => {
+      /**
+       * @see https://stackoverflow.com/a/64551276
+       * @note A custom NodeFilter function slows down performance by 1.5 times.
+       */
+      let walker = DOM.document.createTreeWalker(root, 1 | 128)
+      do { cb(walker.currentNode) } while (walker.nextNode())
+    }
+
     new DOM.MutationObserver((mutationsList) => {
       for (let mutation of mutationsList) {
+        for (let addedNode of mutation.addedNodes) {
+          walk(addedNode, (node) => onUnmountedMap.set(node, onMountedMap.get(node)?.(ctx, node)!))
+        }
         for (let removedNode of mutation.removedNodes) {
-          /**
-           * @see https://stackoverflow.com/a/64551276
-           * @note A custom NodeFilter function slows down performance by 1.5 times.
-           */
-          const walker = DOM.document.createTreeWalker(removedNode, 1 | 128)
-
-          do {
-            const node = walker.currentNode as Element
-            unsubscribesMap.get(node)?.forEach((fn) => fn())
-            unsubscribesMap.delete(node)
-          } while (walker.nextNode())
+          walk(removedNode, (node) => onUnmountedMap.get(node)?.(ctx, node))
         }
       }
     }).observe(target.parentElement!, {
