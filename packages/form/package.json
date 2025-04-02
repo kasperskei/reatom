@@ -1,6 +1,6 @@
 {
   "name": "@reatom/form",
-  "version": "3.3.2",
+  "version": "3.3.3",
   "private": false,
   "sideEffects": false,
   "description": "Reatom for form",
@@ -39,5 +39,7 @@
     "url": "https://github.com/artalar/reatom/issues"
   },
   "homepage": "https://www.reatom.dev/package/form",
-  "files": ["/build"]
+  "files": [
+    "/build"
+  ]
 }
